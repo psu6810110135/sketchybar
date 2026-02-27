@@ -49,14 +49,28 @@ update() {
 }
 
 click() {
-  CURRENT_WIDTH="$(sketchybar --query "$NAME" | jq -r .label.width)"
+  if [ "$BUTTON" = "right" ]; then
+    # Right-click: toggle Wi-Fi on/off
+    WIFI_DEVICE="$(get_wifi_device)"
+    WIFI_POWER=$(networksetup -getairportpower "$WIFI_DEVICE" 2>/dev/null | awk '{print $NF}')
+    if [ "$WIFI_POWER" = "On" ]; then
+      networksetup -setairportpower "$WIFI_DEVICE" off
+    else
+      networksetup -setairportpower "$WIFI_DEVICE" on
+    fi
+    sleep 2
+    update
+  else
+    # Left-click: expand/collapse label
+    CURRENT_WIDTH="$(sketchybar --query "$NAME" | jq -r .label.width)"
 
-  WIDTH=0
-  if [ "$CURRENT_WIDTH" -eq "0" ]; then
-    WIDTH=dynamic
+    WIDTH=0
+    if [ "$CURRENT_WIDTH" -eq "0" ]; then
+      WIDTH=dynamic
+    fi
+
+    sketchybar --animate sin 20 --set "$NAME" label.width="$WIDTH"
   fi
-
-  sketchybar --animate sin 20 --set "$NAME" label.width="$WIDTH"
 }
 
 case "$SENDER" in
