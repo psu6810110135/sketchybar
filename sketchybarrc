@@ -62,7 +62,8 @@ sketchybar  --bar "${bar[@]}" --default "${defaults[@]}"
 
 # Left
 source "$ITEM_DIR/spaces.sh"
-source "$ITEM_DIR/paperwm.sh"
+# Disabled: HammerSpoon/PaperWM state counter item
+# source "$ITEM_DIR/paperwm.sh"
 
 # Right
 source "$ITEM_DIR/front_app.sh"
