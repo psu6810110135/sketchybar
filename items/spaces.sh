@@ -12,6 +12,7 @@ if [ ${#WORKSPACES[@]} -eq 0 ]; then
 fi
 
 sketchybar --add event aerospace_workspace_change
+sketchybar --add event aerospace_monitor_change
 
 for sid in "${WORKSPACES[@]}"
 do
@@ -26,16 +27,16 @@ do
     icon.padding_right=6
     icon.color=$ACCENT
     label=""
-    label.width=20
+    label.width=0
     label.padding_left=8
     label.padding_right=10
-    label.background.drawing=on
-    label.background.image.scale=0.66
+    label.font="sketchybar-app-font:Regular:16.0"
+    label.y_offset=-1
     background.color=$ACCENT
     background.corner_radius=7
     background.height=28
     background.drawing=off
-    drawing=on
+    drawing=off
     padding_left=3
     padding_right=3
   )
@@ -43,9 +44,11 @@ do
   sketchybar --add item space.$sid left         \
              --set space.$sid "${space[@]}"    \
              --subscribe space.$sid aerospace_workspace_change \
+                                   aerospace_monitor_change   \
                                    front_app_switched         \
                                    display_change             \
-                                   system_woke
+                                   system_woke                \
+                                   forced
 done
 
 sketchybar --trigger aerospace_workspace_change
