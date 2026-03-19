@@ -27,7 +27,7 @@ do
     icon.padding_right=6
     icon.color=$ACCENT
     label=""
-    label.width=0
+    label.width=dynamic
     label.padding_left=8
     label.padding_right=10
     label.font="sketchybar-app-font:Regular:16.0"

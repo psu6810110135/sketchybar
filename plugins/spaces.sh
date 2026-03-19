@@ -1,5 +1,8 @@
 #!/bin/bash
 
+PLUGIN_DIR="$(cd "$(dirname "$0")" && pwd)"
+ICON_MAP_SCRIPT="$PLUGIN_DIR/icon_map_fn.sh"
+
 sid="${NAME#space.}"
 focused_workspace="${FOCUSED_WORKSPACE:-$(aerospace list-workspaces --focused 2>/dev/null)}"
 window_count="$(aerospace list-windows --workspace "$sid" --count 2>/dev/null)"
@@ -22,7 +25,7 @@ icon_strip=""
 if [ -n "$apps" ]; then
   while IFS= read -r app; do
     [ -z "$app" ] && continue
-    glyph="$($CONFIG_DIR/plugins/icon_map_fn.sh "$app")"
+    glyph="$($ICON_MAP_SCRIPT "$app")"
     [ -n "$glyph" ] && icon_strip="$icon_strip $glyph"
   done <<< "$apps"
 fi
