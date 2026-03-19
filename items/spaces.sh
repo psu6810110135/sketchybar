@@ -16,6 +16,10 @@ sketchybar --add event aerospace_monitor_change
 
 for sid in "${WORKSPACES[@]}"
 do
+  case "$sid" in
+    ''|*[!0-9]*) continue ;;
+  esac
+
   space=(
     script="$PLUGIN_DIR/spaces.sh"
     click_script="aerospace workspace $sid"

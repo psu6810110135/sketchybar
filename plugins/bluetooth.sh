@@ -30,6 +30,10 @@ update() {
 }
 
 click() {
+  if [ "$BUTTON" = "right" ] && [ "$MODIFIER" != "shift" ]; then
+    exit 0
+  fi
+
   if [ "$BUTTON" = "right" ]; then
     # Right-click: toggle Bluetooth on/off
     BT_STATUS=$(blueutil --power 2>/dev/null)

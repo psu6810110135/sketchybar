@@ -4,6 +4,10 @@ PLUGIN_DIR="$(cd "$(dirname "$0")" && pwd)"
 ICON_MAP_SCRIPT="$PLUGIN_DIR/icon_map_fn.sh"
 
 sid="${NAME#space.}"
+case "$sid" in
+  ''|*[!0-9]*) exit 0 ;;
+esac
+
 focused_workspace="${FOCUSED_WORKSPACE:-$(aerospace list-workspaces --focused 2>/dev/null)}"
 window_count="$(aerospace list-windows --workspace "$sid" --count 2>/dev/null)"
 

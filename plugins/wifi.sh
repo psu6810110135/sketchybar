@@ -49,6 +49,10 @@ update() {
 }
 
 click() {
+  if [ "$BUTTON" = "right" ] && [ "$MODIFIER" != "shift" ]; then
+    exit 0
+  fi
+
   if [ "$BUTTON" = "right" ]; then
     # Right-click: toggle Wi-Fi on/off
     WIFI_DEVICE="$(get_wifi_device)"

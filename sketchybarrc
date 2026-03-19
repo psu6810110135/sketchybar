@@ -1,5 +1,14 @@
 #!/bin/bash
 
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd -P)"
+CONFIG_DIR="${CONFIG_DIR:-$SCRIPT_DIR}"
+CONFIG_DIR="$(cd "$CONFIG_DIR" && pwd -P)"
+
+if [ "$CONFIG_DIR" != "$SCRIPT_DIR" ]; then
+  echo "Refusing to load unexpected CONFIG_DIR: $CONFIG_DIR" >&2
+  exit 1
+fi
+
 source "$CONFIG_DIR/colors.sh" # Loads all defined colors
 source "$CONFIG_DIR/icons.sh" # Loads all defined icons
 
