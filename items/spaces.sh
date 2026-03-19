@@ -23,21 +23,21 @@ do
     icon="$sid"
     icon.font="$FONT:Semibold:15.0"
     icon.padding_left=10
-    icon.padding_right=6
+    icon.padding_right=4
     icon.color=$ACCENT
     label=""
-    label.width=16
-    label.padding_left=2
-    label.padding_right=10
+    label.width=18
+    label.padding_left=6
+    label.padding_right=8
     label.background.drawing=on
-    label.background.image.scale=0.72
+    label.background.image.scale=0.68
     background.color=$ACCENT
     background.corner_radius=7
-    background.height=28
+    background.height=26
     background.drawing=off
     drawing=on
-    padding_left=2
-    padding_right=2
+    padding_left=3
+    padding_right=3
   )
 
   sketchybar --add item space.$sid left         \

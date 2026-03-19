@@ -1,10 +1,14 @@
 #!/bin/bash
 
 sid="${NAME#space.}"
-visible_workspaces="$(aerospace list-workspaces --monitor all --visible 2>/dev/null)"
 focused_workspace="$(aerospace list-workspaces --focused 2>/dev/null)"
+window_count="$(aerospace list-windows --workspace "$sid" --count 2>/dev/null)"
 
-if ! echo "$visible_workspaces" | grep -Fxq "$sid"; then
+if ! [[ "$window_count" =~ ^[0-9]+$ ]]; then
+  window_count=0
+fi
+
+if [ "$sid" != "$focused_workspace" ] && [ "$window_count" -eq 0 ]; then
   sketchybar --set "$NAME" drawing=off
   exit 0
 fi
@@ -22,11 +26,15 @@ if [ "$sid" = "$focused_workspace" ]; then
              drawing=on \
              icon.color=0xff1e1e2e \
              background.drawing=on \
+             label.padding_left=6 \
+             label.padding_right=8 \
              label.background.image="$label_image"
 else
   sketchybar --set "$NAME" \
              drawing=on \
              icon.color=0xff94e2d5 \
              background.drawing=off \
+             label.padding_left=6 \
+             label.padding_right=8 \
              label.background.image="$label_image"
 fi
