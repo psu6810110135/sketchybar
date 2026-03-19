@@ -26,15 +26,17 @@ if [ "$sid" = "$focused_workspace" ]; then
              drawing=on \
              icon.color=0xff1e1e2e \
              background.drawing=on \
-             label.padding_left=6 \
-             label.padding_right=8 \
+             label.width=24 \
+             label.padding_left=10 \
+             label.padding_right=12 \
              label.background.image="$label_image"
 else
   sketchybar --set "$NAME" \
              drawing=on \
-             icon.color=0xff94e2d5 \
+             icon.color=0xffcba6f7 \
              background.drawing=off \
-             label.padding_left=6 \
-             label.padding_right=8 \
+             label.width=20 \
+             label.padding_left=8 \
+             label.padding_right=10 \
              label.background.image="$label_image"
 fi
