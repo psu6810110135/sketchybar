@@ -1,44 +1,52 @@
 #!/bin/bash
 
-SPACE_ICONS=("1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "11" "12" "13" "14" "15")
-ACCENT=0xff55efe2
-ACCENT_DIM=0xaa55efe2
-ACTIVE_TEXT=0xff042436
+ACCENT=$TEAL
 
-# Destroy space on right click, focus space on left click.
-# New space by left clicking separator (>)
+WORKSPACES=()
+while IFS= read -r workspace; do
+  [ -n "$workspace" ] && WORKSPACES+=("$workspace")
+done < <(aerospace list-workspaces --all 2>/dev/null)
 
-sid=0
-spaces=()
-for i in "${!SPACE_ICONS[@]}"
+if [ ${#WORKSPACES[@]} -eq 0 ]; then
+  WORKSPACES=("1")
+fi
+
+sketchybar --add event aerospace_workspace_change
+
+for sid in "${WORKSPACES[@]}"
 do
-  sid=$(($i+1))
-
   space=(
-    associated_space=$sid
     script="$PLUGIN_DIR/spaces.sh"
-    icon="${SPACE_ICONS[i]}"
+    click_script="aerospace workspace $sid"
+    update_freq=2
+    updates=on
+    icon="$sid"
     icon.font="$FONT:Semibold:15.0"
     icon.padding_left=10
-    icon.padding_right=4
+    icon.padding_right=6
     icon.color=$ACCENT
-    padding_left=2
-    padding_right=2
-    label="-"
-    label.font="$FONT:Semibold:16.0"
-    label.padding_left=0
-    label.padding_right=12
-    label.color=$ACCENT_DIM
-    label.highlight_color=$ACTIVE_TEXT
+    label=""
+    label.width=16
+    label.padding_left=2
+    label.padding_right=10
+    label.background.drawing=on
+    label.background.image.scale=0.72
     background.color=$ACCENT
     background.corner_radius=7
     background.height=28
     background.drawing=off
-    icon.highlight_color=$ACTIVE_TEXT
+    drawing=on
+    padding_left=2
+    padding_right=2
   )
 
-  sketchybar --add space space.$sid left    \
-             --set space.$sid "${space[@]}" \
-             --subscribe space.$sid space_change
+  sketchybar --add item space.$sid left         \
+             --set space.$sid "${space[@]}"    \
+             --subscribe space.$sid aerospace_workspace_change \
+                                   front_app_switched         \
+                                   display_change             \
+                                   system_woke
 done
+
+sketchybar --trigger aerospace_workspace_change
 
